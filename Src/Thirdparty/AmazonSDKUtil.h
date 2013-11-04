@@ -17,7 +17,7 @@
 
 // NOTE: Not using categories as static libs require additional linker flags
 // http://stackoverflow.com/questions/2567498/objective-c-categories-in-static-library
-@interface NSDataWithBase64
+@interface NSDataWithBase64 : NSObject
 
 /**
  * Return a base64 encoded representation of the data.

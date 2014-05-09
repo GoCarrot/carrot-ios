@@ -28,6 +28,7 @@
 @property (strong, nonatomic) NSDate* sessionStart;
 @property (strong, nonatomic) NSDate* sessionEnd;
 @property (strong, nonatomic) NSString* sessionId;
+@property (strong, nonatomic) NSURL* launchUrl;
 @property (strong, nonatomic) NSString* appVersion;
 @property (strong, nonatomic) NSString* appBuild;
 @property (nonatomic) UIBackgroundTaskIdentifier backgroundTask;

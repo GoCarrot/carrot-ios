@@ -339,6 +339,8 @@ static NSString* sCarrotDebugUDID = nil;
 - (BOOL)handleOpenURL:(NSURL*)url
 {
    BOOL ret = Carrot_HandleOpenURLFacebookSDK(url);
+   self.launchUrl = url;
+
    if([url.scheme compare:[NSString stringWithFormat:@"fb%@%@", self.appId, self.urlSchemeSuffix]] == 0)
    {
       @try

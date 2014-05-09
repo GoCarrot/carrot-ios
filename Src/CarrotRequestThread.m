@@ -95,14 +95,15 @@ NSString* URLEscapedString(NSString* inString)
    }
    self.lastDiscoveryDate = [NSDate date];
 
-   NSString* urlString = [NSString stringWithFormat:@"http://%@/services.json?sdk_version=%@&sdk_platform=%@&game_id=%@&app_version=%@&app_build=%@&api_key=%@",
+   NSString* urlString = [NSString stringWithFormat:@"http://%@/services.json?sdk_version=%@&sdk_platform=%@&game_id=%@&app_version=%@&app_build=%@&api_key=%@&launch_url=%@",
                           kCarrotServicesHostname,
                           URLEscapedString(self.carrot.version),
                           URLEscapedString([NSString stringWithFormat:@"ios_%@",[[UIDevice currentDevice] systemVersion]]),
                           URLEscapedString(self.carrot.appId),
                           URLEscapedString(self.carrot.appVersion),
                           URLEscapedString(self.carrot.appBuild),
-                          URLEscapedString(self.carrot.udid)];
+                          URLEscapedString(self.carrot.udid),
+                          URLEscapedString(self.carrot.launchUrl)];
    NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]
                                             cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
                                         timeoutInterval:120];

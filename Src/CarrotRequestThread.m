@@ -95,7 +95,7 @@ NSString* URLEscapedString(NSString* inString)
    }
    self.lastDiscoveryDate = [NSDate date];
 
-   NSString* urlString = [NSString stringWithFormat:@"http://%@/services.json?sdk_version=%@&sdk_platform=%@&game_id=%@&app_version=%@&app_build=%@&api_key=%@&launch_url=%@",
+   NSString* urlString = [NSString stringWithFormat:@"https://%@/services.json?sdk_version=%@&sdk_platform=%@&game_id=%@&app_version=%@&app_build=%@&api_key=%@&launch_url=%@",
                           kCarrotServicesHostname,
                           URLEscapedString(self.carrot.version),
                           URLEscapedString([NSString stringWithFormat:@"ios_%@",[[UIDevice currentDevice] systemVersion]]),

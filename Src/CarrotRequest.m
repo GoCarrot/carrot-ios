@@ -49,6 +49,12 @@ NSString* CarrotRequestTypePOST = @"POST";
    };
    NSMutableDictionary* finalPayload = [NSMutableDictionary dictionaryWithDictionary:commonPayload];
    [finalPayload addEntriesFromDictionary:payload];
+
+   if([Carrot sharedInstance].sessionId != nil)
+   {
+      [finalPayload setObject:[Carrot sharedInstance].sessionId forKey:@"session_id"];
+   }
+
    return finalPayload;
 }
 

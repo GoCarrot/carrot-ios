@@ -22,7 +22,7 @@
 #include <CommonCrypto/CommonDigest.h>
 #import <FacebookSDK/FacebookSDK.h>
 
-#define kCarrotSDKVersion @"1.1.0"
+#define kCarrotSDKVersion @"1.2.0"
 
 extern void Carrot_Plant(Class appDelegateClass, NSString* appSecret);
 extern void Carrot_GetFBAppId(NSMutableString* outString);

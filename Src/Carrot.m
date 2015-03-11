@@ -20,6 +20,7 @@
 #import "Reachability.h"
 #import "AmazonSDKUtil.h"
 #include <CommonCrypto/CommonDigest.h>
+#import <FacebookSDK/FacebookSDK.h>
 
 #define kCarrotSDKVersion @"1.1.0"
 

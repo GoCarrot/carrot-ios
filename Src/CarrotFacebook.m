@@ -21,20 +21,12 @@ static BOOL sCarrotDidFacebookSDKAuth = NO;
 
 NSString* Carrot_GetAccessTokenFromSession(FBSession* session)
 {
-   // 3.2.1
-   if([FBSession instancesRespondToSelector:@selector(accessTokenData)])
-   {
-      return [[session accessTokenData] accessToken];
-   }
-   else // older versions
-   {
-      return [session accessToken];
-   }
+   return [[session accessTokenData] accessToken];
 }
 
 void Carrot_GetFBAppId(NSMutableString* outString)
 {
-   [outString setString:[FBSession defaultAppID]];
+   [outString setString:[FBSettings defaultAppID]];
 }
 
 BOOL Carrot_HandleOpenURLFacebookSDK(NSURL* url)
@@ -57,20 +49,9 @@ void Carrot_HandleApplicationDidBecomeActive()
       {
          [Carrot sharedInstance].cachedSessionStatusReason = CarrotAuthenticationStatusReasonSessionExists;
 
-         if([FBSession instancesRespondToSelector:@selector(openActiveSessionWithAllowLoginUI:)])
+         if([FBSession openActiveSessionWithAllowLoginUI:NO])
          {
-            // Legacy Facebook SDK support
-            if([[FBSession activeSession] openActiveSessionWithAllowLoginUI:NO])
-            {
-               [[Carrot sharedInstance] setAccessToken:Carrot_GetAccessTokenFromSession([FBSession activeSession])];
-            }
-         }
-         else
-         {
-            if([FBSession openActiveSessionWithAllowLoginUI:NO])
-            {
-               [[Carrot sharedInstance] setAccessToken:Carrot_GetAccessTokenFromSession([FBSession activeSession])];
-            }
+            [[Carrot sharedInstance] setAccessToken:Carrot_GetAccessTokenFromSession([FBSession activeSession])];
          }
       }
       break;
@@ -248,8 +229,7 @@ int Carrot_DoFacebookAuthWithPermissions(int allowLoginUI, CFArrayRef permission
       }
    }
 
-   if(permissionType == CarrotFacebookPermissionRead &&
-      [FBSession respondsToSelector:@selector(openActiveSessionWithReadPermissions:allowLoginUI:completionHandler:)])
+   if(permissionType == CarrotFacebookPermissionRead)
    {
       ret = 1;
       sCarrotDidFacebookSDKAuth = YES;
@@ -260,39 +240,16 @@ int Carrot_DoFacebookAuthWithPermissions(int allowLoginUI, CFArrayRef permission
                                     completionHandler:Carrot_FacebookSDKCompletionHandler];
    }
    else if(permissionType == CarrotFacebookPermissionPublishActions &&
-           [[FBSession activeSession] isOpen] &&
-           [FBSession instancesRespondToSelector:@selector(reauthorizeWithPublishPermissions:defaultAudience:completionHandler:)])
+           [[FBSession activeSession] isOpen])
    {
       ret = 1;
       sCarrotDidFacebookSDKAuth = YES;
 
-      // 3.2.1 method
-      if([FBSession instancesRespondToSelector:@selector(requestNewPublishPermissions:defaultAudience:completionHandler:)])
-      {
-         NSLog(@"Requesting new Facebook publish permissions: %@", permissionsArray);
-         [[FBSession activeSession]
-          requestNewPublishPermissions:permissionsArray
-                       defaultAudience:FBSessionDefaultAudienceFriends
-                     completionHandler:Carrot_FacebookSDKReauthorizeHandler];
-      }
-      else
-      {
-         NSLog(@"Reauthorizing Facebook session with publish permissions: %@", permissionsArray);
-         [[FBSession activeSession]
-          reauthorizeWithPublishPermissions:permissionsArray
-                            defaultAudience:FBSessionDefaultAudienceFriends
-                          completionHandler:Carrot_FacebookSDKReauthorizeHandler];
-      }
-   }
-   else if([FBSession respondsToSelector:@selector(openActiveSessionWithPermissions:allowLoginUI:completionHandler:)])
-   {
-      // Legacy FacebookSDK support
-      NSLog(@"Opening Facebook session with permissions (Legacy): %@", permissionsArray);
-      ret = 1;
-      sCarrotDidFacebookSDKAuth = YES;
-      [FBSession openActiveSessionWithPermissions:permissionsArray
-                                     allowLoginUI:allowLoginUI
-                                completionHandler:Carrot_FacebookSDKCompletionHandler];
+      NSLog(@"Requesting new Facebook publish permissions: %@", permissionsArray);
+      [[FBSession activeSession]
+       requestNewPublishPermissions:permissionsArray
+       defaultAudience:FBSessionDefaultAudienceFriends
+       completionHandler:Carrot_FacebookSDKReauthorizeHandler];
    }
 
    return ret;

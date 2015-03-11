@@ -38,7 +38,7 @@
 
 - (void)setAuthenticationStatus:(CarrotAuthenticationStatus)authenticationStatus withError:(NSError*)error andReason:(CarrotAuthenticationStatusReason)reason;
 
-- (BOOL)updateAuthenticationStatus:(int)httpCode;
+- (BOOL)updateAuthenticationStatus:(long)httpCode;
 - (void)validateUser;
 
 + (NSString*)sharedAppID;

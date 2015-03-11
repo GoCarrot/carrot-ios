@@ -80,14 +80,14 @@
 
 - (NSString*)description
 {
-   return [NSString stringWithFormat:@"Carrot Request: {\n\t'request_servicetype':'%d'\n\t'request_endpoint':'%@',\n\t'request_payload':'%@',\n\t'request_id':'%@',\n\t'request_date':'%@',\n\t'retry_count':'%d'\n}", self.serviceType, self.endpoint, self.payload, self.requestId, self.dateIssued, self.retryCount];
+   return [NSString stringWithFormat:@"Carrot Request: {\n\t'request_servicetype':'%d'\n\t'request_endpoint':'%@',\n\t'request_payload':'%@',\n\t'request_id':'%@',\n\t'request_date':'%@',\n\t'retry_count':'%lu'\n}", self.serviceType, self.endpoint, self.payload, self.requestId, self.dateIssued, (unsigned long)self.retryCount];
 }
 
 - (void)requestCallbackStatus:(NSHTTPURLResponse*)response data:(NSData*)data thread:(CarrotRequestThread*)requestThread
 {
    NSError* error = nil;
    NSDictionary* jsonReply = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
-   int httpCode = response != nil ? response.statusCode : 401;
+   long httpCode = response != nil ? response.statusCode : 401;
 
    if(self.serviceType == CarrotRequestServiceMetrics)
    {
@@ -125,8 +125,8 @@
    }
    else
    {
-      NSLog(@"Unknown error (%d) submitting Carrot request: %@\nJSON:%@",
-            response.statusCode, self, jsonReply);
+      NSLog(@"Unknown error (%ld) submitting Carrot request: %@\nJSON:%@",
+            (long)response.statusCode, self, jsonReply);
       if(requestThread.maxRetryCount > 0 && self.retryCount > requestThread.maxRetryCount)
       {
          // Remove request, never retry

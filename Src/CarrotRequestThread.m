@@ -103,7 +103,7 @@ NSString* URLEscapedString(NSString* inString)
                           URLEscapedString(self.carrot.appVersion),
                           URLEscapedString(self.carrot.appBuild),
                           URLEscapedString(self.carrot.udid),
-                          URLEscapedString(self.carrot.launchUrl)];
+                          URLEscapedString([self.carrot.launchUrl absoluteString])];
    NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]
                                             cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
                                         timeoutInterval:120];
@@ -429,7 +429,7 @@ NSString* URLEscapedString(NSString* inString)
    preppedRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@://%@%@", kDefaultHostUrlScheme, host, request.endpoint]]];
 
    [preppedRequest setHTTPBody:postData];
-   [preppedRequest setValue:[NSString stringWithFormat:@"%d", [postData length]]
+   [preppedRequest setValue:[NSString stringWithFormat:@"%lu", (unsigned long)[postData length]]
          forHTTPHeaderField:@"Content-Length"];
    NSString *charset = (NSString *)CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(NSUTF8StringEncoding));
    [preppedRequest setValue:[NSString stringWithFormat:@"multipart/form-data; charset=%@; boundary=%@", charset, boundry]

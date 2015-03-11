@@ -295,7 +295,7 @@ static NSString* sCarrotDebugUDID = nil;
    }
 }
 
-- (BOOL)updateAuthenticationStatus:(int)httpCode
+- (BOOL)updateAuthenticationStatus:(long)httpCode
 {
    BOOL ret = YES;
    switch(httpCode)
@@ -489,7 +489,7 @@ static NSString* sCarrotDebugUDID = nil;
                            usingMethod:@"POST"
                            withPayload:payload
                               callback:^(CarrotRequest* request, NSHTTPURLResponse* response, NSData* data, CarrotRequestThread* requestThread) {
-         int httpCode = response != nil ? response.statusCode : 401;
+         long httpCode = response != nil ? response.statusCode : 401;
 
          if(httpCode == 404)
          {
@@ -505,7 +505,7 @@ static NSString* sCarrotDebugUDID = nil;
          {
             NSError* error = nil;
             NSDictionary* jsonReply = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
-            NSLog(@"Unknown error adding Carrot user (%d): %@", response.statusCode,
+            NSLog(@"Unknown error adding Carrot user (%ld): %@", (long)response.statusCode,
                   error ? error : jsonReply);
             [self setAuthenticationStatus:CarrotAuthenticationStatusUndetermined withError:error andReason:CarrotAuthenticationStatusReasonUnknown];
          }
@@ -628,7 +628,7 @@ static NSString* sCarrotDebugUDID = nil;
    {
       unsigned char hash[CC_SHA256_DIGEST_LENGTH];
       NSData* pngImage = UIImagePNGRepresentation(image);
-      if(!CC_SHA256([pngImage bytes], [pngImage length], hash)) return NO;
+      if(!CC_SHA256([pngImage bytes], (unsigned int)[pngImage length], hash)) return NO;
 
       NSString* sha256 = [NSDataWithBase64 base64EncodedStringFromData:[NSData dataWithBytes:hash length:CC_SHA256_DIGEST_LENGTH]];
       [fullObjectProperties setObject:URLEscapedString(sha256) forKey:@"image_sha"];

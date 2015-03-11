@@ -26,7 +26,7 @@ extern void Carrot_HandleApplicationDidBecomeActive();
   sourceApplication:(NSString*)sourceApplication
          annotation:(id)annotation;
 
-- (BOOL)application:(UIApplication*)application handleOpenURL:(NSURL *)url;
+- (BOOL)application:(UIApplication*)application handleOpenURL:(NSURL*)url;
 
 - (void)applicationDidBecomeActive:(UIApplication*)application;
 
@@ -35,11 +35,11 @@ extern void Carrot_HandleApplicationDidBecomeActive();
 - (void)applicationDidEnterBackground:(UIApplication*)application;
 @end
 
-static IMP sHostAppOpenURLIMP = NULL;
-static IMP sHostAppDepOpenURLIMP = NULL;
-static IMP sHostDBAIMP = NULL;
-static IMP sHostAppPushRegIMP = NULL;
-static IMP sHostDEBIMP = NULL;
+static BOOL (*sHostAppOpenURLIMP)(id, SEL, UIApplication*, NSURL*, NSString*, id) = NULL;
+static BOOL (*sHostAppDepOpenURLIMP)(id, SEL, UIApplication*, NSURL*) = NULL;
+static void (*sHostDBAIMP)(id, SEL, UIApplication*) = NULL;
+static void (*sHostAppPushRegIMP)(id, SEL, UIApplication*, NSData*) = NULL;
+static void (*sHostDEBIMP)(id, SEL, UIApplication*) = NULL;
 
 void Carrot_Plant(Class appDelegateClass, NSString* appSecret)
 {
@@ -53,31 +53,31 @@ void Carrot_Plant(Class appDelegateClass, NSString* appSecret)
    struct objc_method_description appOpenURLMethod = protocol_getMethodDescription(uiAppDelegateProto, @selector(application:openURL:sourceApplication:annotation:), NO, YES);
 
    Method ctAppOpenURL = class_getInstanceMethod([CarrotAppDelegateHooks class], appOpenURLMethod.name);
-   sHostAppOpenURLIMP = class_replaceMethod(appDelegateClass, appOpenURLMethod.name, method_getImplementation(ctAppOpenURL), appOpenURLMethod.types);
+   sHostAppOpenURLIMP = (BOOL (*)(id, SEL, UIApplication*, NSURL*, NSString*, id))class_replaceMethod(appDelegateClass, appOpenURLMethod.name, method_getImplementation(ctAppOpenURL), appOpenURLMethod.types);
 
    // application:handleOpenURL: (depricated)
    struct objc_method_description appDepOpenURLMethod = protocol_getMethodDescription(uiAppDelegateProto, @selector(application:handleOpenURL:), NO, YES);
 
    Method ctAppDepOpenURL = class_getInstanceMethod([CarrotAppDelegateHooks class], appDepOpenURLMethod.name);
-   sHostAppDepOpenURLIMP = class_replaceMethod(appDelegateClass, appDepOpenURLMethod.name, method_getImplementation(ctAppDepOpenURL), appDepOpenURLMethod.types);
+   sHostAppDepOpenURLIMP = (BOOL (*)(id, SEL, UIApplication*, NSURL*))class_replaceMethod(appDelegateClass, appDepOpenURLMethod.name, method_getImplementation(ctAppDepOpenURL), appDepOpenURLMethod.types);
 
    // applicationDidBecomeActive:
    struct objc_method_description appDBAMethod = protocol_getMethodDescription(uiAppDelegateProto, @selector(applicationDidBecomeActive:), NO, YES);
 
    Method ctAppDBA = class_getInstanceMethod([CarrotAppDelegateHooks class], appDBAMethod.name);
-   sHostDBAIMP = class_replaceMethod(appDelegateClass, appDBAMethod.name, method_getImplementation(ctAppDBA), appDBAMethod.types);
+   sHostDBAIMP = (void (*)(id, SEL, UIApplication*))class_replaceMethod(appDelegateClass, appDBAMethod.name, method_getImplementation(ctAppDBA), appDBAMethod.types);
 
    // application:didRegisterForRemoteNotificationsWithDeviceToken:
    struct objc_method_description appPushRegMethod = protocol_getMethodDescription(uiAppDelegateProto, @selector(application:didRegisterForRemoteNotificationsWithDeviceToken:), NO, YES);
 
    Method ctAppPushReg = class_getInstanceMethod([CarrotAppDelegateHooks class], appPushRegMethod.name);
-   sHostAppPushRegIMP = class_replaceMethod(appDelegateClass, appPushRegMethod.name, method_getImplementation(ctAppPushReg), appPushRegMethod.types);
+   sHostAppPushRegIMP = (void (*)(id, SEL, UIApplication*, NSData*))class_replaceMethod(appDelegateClass, appPushRegMethod.name, method_getImplementation(ctAppPushReg), appPushRegMethod.types);
 
    // applicationDidEnterBackground:
    struct objc_method_description appDEBMethod = protocol_getMethodDescription(uiAppDelegateProto, @selector(applicationDidEnterBackground:), NO, YES);
 
    Method ctAppDEB = class_getInstanceMethod([CarrotAppDelegateHooks class], appDEBMethod.name);
-   sHostDEBIMP = class_replaceMethod(appDelegateClass, appDEBMethod.name, method_getImplementation(ctAppDEB), appDEBMethod.types);
+   sHostDEBIMP = (void (*)(id, SEL, UIApplication*))class_replaceMethod(appDelegateClass, appDEBMethod.name, method_getImplementation(ctAppDEB), appDEBMethod.types);
 }
 
 @implementation CarrotAppDelegateHooks
@@ -90,7 +90,7 @@ void Carrot_Plant(Class appDelegateClass, NSString* appSecret)
    BOOL ret = [[Carrot sharedInstance] handleOpenURL:url];
    if(sHostAppOpenURLIMP)
    {
-      ret |= (BOOL)sHostAppOpenURLIMP(self, @selector(application:openURL:sourceApplication:annotation:), application, url, sourceApplication, annotation);
+      ret |= sHostAppOpenURLIMP(self, @selector(application:openURL:sourceApplication:annotation:), application, url, sourceApplication, annotation);
    }
    return ret;
 }
@@ -100,7 +100,7 @@ void Carrot_Plant(Class appDelegateClass, NSString* appSecret)
    BOOL ret = [[Carrot sharedInstance] handleOpenURL:url];
    if(sHostAppDepOpenURLIMP)
    {
-      ret |= (BOOL)sHostAppDepOpenURLIMP(self, @selector(application:handleOpenURL:),
+      ret |= sHostAppDepOpenURLIMP(self, @selector(application:handleOpenURL:),
                                       application, url);
    }
    return ret;

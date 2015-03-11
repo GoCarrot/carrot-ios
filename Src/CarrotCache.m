@@ -232,7 +232,7 @@ static BOOL carrotcache_commit(sqlite3* cache);
             else
             {
                CarrotCachedRequest* request = [[CarrotCachedRequest alloc]
-                                               initForService:serviceType
+                                               initForService:(CarrotRequestServiceType)serviceType
                                                atEndpoint:requestEndpoint
                                                payload:requestPayload
                                                requestId:requestId

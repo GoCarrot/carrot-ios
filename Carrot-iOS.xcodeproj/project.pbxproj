@@ -37,8 +37,6 @@
 		437A1C1E15FA66E900971F2E /* CarrotRequestThread.m in Sources */ = {isa = PBXBuildFile; fileRef = 437A1C1715FA66E900971F2E /* CarrotRequestThread.m */; };
 		437A1C2615FA66FA00971F2E /* AmazonSDKUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = 437A1C2015FA66FA00971F2E /* AmazonSDKUtil.h */; };
 		437A1C2715FA66FA00971F2E /* AmazonSDKUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 437A1C2115FA66FA00971F2E /* AmazonSDKUtil.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		437A1C2815FA66FA00971F2E /* OpenUDID.h in Headers */ = {isa = PBXBuildFile; fileRef = 437A1C2215FA66FA00971F2E /* OpenUDID.h */; };
-		437A1C2915FA66FA00971F2E /* OpenUDID.m in Sources */ = {isa = PBXBuildFile; fileRef = 437A1C2315FA66FA00971F2E /* OpenUDID.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		437A1C2A15FA66FA00971F2E /* Reachability.h in Headers */ = {isa = PBXBuildFile; fileRef = 437A1C2415FA66FA00971F2E /* Reachability.h */; };
 		437A1C2B15FA66FA00971F2E /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 437A1C2515FA66FA00971F2E /* Reachability.m */; };
 		43A8C0C7177E0D30008654F0 /* CarrotCache.h in Headers */ = {isa = PBXBuildFile; fileRef = 43A8C0C5177E0D30008654F0 /* CarrotCache.h */; };
@@ -74,8 +72,6 @@
 		437A1C1715FA66E900971F2E /* CarrotRequestThread.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CarrotRequestThread.m; path = Src/CarrotRequestThread.m; sourceTree = SOURCE_ROOT; };
 		437A1C2015FA66FA00971F2E /* AmazonSDKUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AmazonSDKUtil.h; sourceTree = "<group>"; };
 		437A1C2115FA66FA00971F2E /* AmazonSDKUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AmazonSDKUtil.m; sourceTree = "<group>"; };
-		437A1C2215FA66FA00971F2E /* OpenUDID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenUDID.h; sourceTree = "<group>"; };
-		437A1C2315FA66FA00971F2E /* OpenUDID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenUDID.m; sourceTree = "<group>"; };
 		437A1C2415FA66FA00971F2E /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		437A1C2515FA66FA00971F2E /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		43A8C0C5177E0D30008654F0 /* CarrotCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CarrotCache.h; path = Src/CarrotCache.h; sourceTree = SOURCE_ROOT; };
@@ -159,8 +155,6 @@
 			children = (
 				437A1C2015FA66FA00971F2E /* AmazonSDKUtil.h */,
 				437A1C2115FA66FA00971F2E /* AmazonSDKUtil.m */,
-				437A1C2215FA66FA00971F2E /* OpenUDID.h */,
-				437A1C2315FA66FA00971F2E /* OpenUDID.m */,
 				437A1C2415FA66FA00971F2E /* Reachability.h */,
 				437A1C2515FA66FA00971F2E /* Reachability.m */,
 			);
@@ -180,7 +174,6 @@
 				437A1C1A15FA66E900971F2E /* CarrotCachedRequest.h in Headers */,
 				437A1C1D15FA66E900971F2E /* CarrotRequestThread.h in Headers */,
 				437A1C2615FA66FA00971F2E /* AmazonSDKUtil.h in Headers */,
-				437A1C2815FA66FA00971F2E /* OpenUDID.h in Headers */,
 				437A1C2A15FA66FA00971F2E /* Reachability.h in Headers */,
 				431CFFA3162737C000D74667 /* Carrot+Internal.h in Headers */,
 				43B9F294167FDB3B00CDD5F8 /* CarrotRequest.h in Headers */,
@@ -278,7 +271,6 @@
 				437A1C1C15FA66E900971F2E /* CarrotCAPI.m in Sources */,
 				437A1C1E15FA66E900971F2E /* CarrotRequestThread.m in Sources */,
 				437A1C2715FA66FA00971F2E /* AmazonSDKUtil.m in Sources */,
-				437A1C2915FA66FA00971F2E /* OpenUDID.m in Sources */,
 				437A1C2B15FA66FA00971F2E /* Reachability.m in Sources */,
 				43679B2F1602A3840042CC31 /* CarrotHooks.m in Sources */,
 				433F6C471605236700CA65A2 /* CarrotFacebook.m in Sources */,

@@ -16,11 +16,11 @@
 #import <Carrot/Carrot.h>
 #import "Carrot+Internal.h"
 #import "CarrotCachedRequest.h"
-#import "OpenUDID.h"
 #import "Reachability.h"
 #import "AmazonSDKUtil.h"
 #include <CommonCrypto/CommonDigest.h>
 #import <FacebookSDK/FacebookSDK.h>
+#import <AdSupport/AdSupport.h>
 
 #define kCarrotSDKVersion @"1.2.0"
 
@@ -175,7 +175,7 @@ static NSString* sCarrotDebugUDID = nil;
 
       self.appId = appId;
       self.appSecret = appSecret;
-      self.udid = (debugUDIDOrNil == nil ? [CarrotOpenUDID value] : debugUDIDOrNil);
+      self.udid = (debugUDIDOrNil == nil ? [[[ASIdentifierManager sharedManager] advertisingIdentifier] UUIDString] : debugUDIDOrNil);
       self.urlSchemeSuffix = urlSchemeSuffix;
       self.version = kCarrotSDKVersion;
 
